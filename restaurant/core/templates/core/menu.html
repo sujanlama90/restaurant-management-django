@@ -1,0 +1,341 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+<!-- ============================================================
+         MENU 
+         ============================================================ -->
+<section id="menu">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <span class="slbl">What's Cooking</span>
+            <h2 class="stitle">Our Delicious <span>Menu</span></h2>
+            <div class="sline"></div>
+        </div>
+        <!-- filter buttons -->
+        <div class="text-center mb-4" data-aos="fade-up">
+            <button class="filtbtn active" data-f="all">All</button>
+            {% for category in  categories %}
+            <button class="filtbtn" data-f="{{ category.slug }}">
+                {{category.name}}
+            </button>
+            {% endfor %}
+        </div>
+
+
+        <div class="row g-4" id="mgrid">
+            <!-- CARD MOMO -->
+
+            {% for category in categories %}
+            {% for item in category.items.all %}
+
+            <div class="col-sm-6 col-lg-4 mwrap" data-c="{{ category.slug }}" data-aos="fade-up">
+
+                <div class="mcard" data-id="{{ item.id }}" data-img="{{ item.image.url }}" data-title="{{ item.title }}"
+                    data-cat="{{ category.name }}" data-price="Rs {{ item.price }}" data-rating="{{ item.rating }}"
+                    data-reviews="{{ item.review_count }}" data-cal="{{ item.calories }}"
+                    data-time="{{ item.prep_time }}" data-desc="{{ item.description }}"
+                    data-tags="{% for tag in item.tags.all %}{{ tag.name }}{% if not forloop.last %},{% endif %}{% endfor %}">
+
+                    <div class="mimg">
+
+                        {% if item.image %}
+                        <img src="{{ item.image.url }}" alt="{{ item.title }}">
+                        {% endif %}
+
+                        {% if item.is_hot %}
+                        <div class="mbdg hot">
+                            <i class="fas fa-star"></i> Hot
+                        </div>
+                        {% endif %}
+
+                        {% if item.is_featured %}
+                        <div class="mbdg new">
+                            <i class="fas fa-star"></i> Featured
+                        </div>
+                        {% endif %}
+
+                        <div class="mhrt">
+                            <i class="far fa-heart"></i>
+                        </div>
+
+                    </div>
+
+                    <div class="mbody">
+
+                        <div class="mcat">
+                            {{ category.name }}
+                        </div>
+
+                        <div class="mtit">
+                            {{ item.title }}
+                        </div>
+
+                        <div class="mdesc">
+                            {{ item.description|truncatewords:10 }}
+                        </div>
+
+                        <div class="mfoot">
+
+                            <div>
+
+                                <div class="mprice">
+                                    Rs {{ item.price }}
+                                </div>
+
+                                <div class="mstars">
+                                    <i class="fas fa-star"></i>
+                                    {{ item.rating }}
+                                    <span style="color:#bbb;font-size:.7rem;">
+                                        ({{ item.review_count }})
+                                    </span>
+                                </div>
+
+                            </div>
+
+                            <button class="madd">
+                                <i class="fas fa-plus"></i>
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
+    </div>
+</section>
+
+
+<!-- ============================================================
+         MENU DETAIL POPUP MODAL
+         ============================================================ -->
+<div id="menuPop">
+    <div class="mpbox">
+        <button class="mpclose" id="mpClose"><i class="fas fa-times"></i></button>
+        <div class="mpimg"><img id="mpImg" src="" alt="" /></div>
+        <div class="mpbody">
+            <div id="mpCat"></div>
+            <div id="mpTitle"></div>
+            <div id="mpStars"></div>
+            <div id="mpDesc"></div>
+            <div id="mpPrice"></div>
+            <div class="mpmeta" id="mpMeta"></div>
+            <div class="mpqty">
+                <button class="mpqbtn" id="mpMinus">-</button>
+                <span class="mpqnum" id="mpQnum">1</span>
+                <button class="mpqbtn" id="mpPlus">+</button>
+                <span style="font-size:.82rem;color:#aaa;margin-left:9px;">portion</span>
+            </div>
+            <div class="mptags" id="mpTags"></div>
+            <button class="mpaddcart" id="mpAddCart"><i class="fas fa-shopping-cart"></i>Add to Cart</button>
+        </div>
+    </div>
+</div>
+<!-- SPECIAL OFFER -->
+<section id="special">
+    <div class="spbg"></div>
+    <div class="container" style="position:relative;z-index:2;">
+        <div class="row align-items-center g-5">
+
+            <div class="col-lg-6" data-aos="fade-right">
+                <div class="sptag">
+                    <i class="fas fa-bolt me-1"></i>Limited Time Offer
+                </div>
+
+                <h2 class="sptitle">
+                    Get 30% Off<br>
+                    Our Signature<br>
+                    <span>Momo</span> Platter
+                </h2>
+
+                <p class="spdesc">
+                    Treat yourself to our delicious handmade signature momos! Enjoy a flavorful platter served with our special homemade dipping sauce and a refreshing drink at an unbeatable weekend price.
+                </p>
+
+                <div class="cdwrap">
+                    <div class="cditem">
+                        <span class="cdnum" id="cdH">08</span>
+                        <span class="cdlbl">Hours</span>
+                    </div>
+
+                    <div class="cditem">
+                        <span class="cdnum" id="cdM">45</span>
+                        <span class="cdlbl">Minutes</span>
+                    </div>
+
+                    <div class="cditem">
+                        <span class="cdnum" id="cdS">30</span>
+                        <span class="cdlbl">Seconds</span>
+                    </div>
+                </div>
+
+                <a href="#menu" class="btn-red">
+                    <i class="fas fa-shopping-cart"></i>Order Now
+                </a>
+            </div>
+
+            <div class="col-lg-6" data-aos="fade-left">
+                <div class="spimgw">
+                    <div class="spglow"></div>
+
+                    <div class="sppbdg">
+                        <span class="old">Rs 200</span>
+                        <span class="np">Rs 140</span>
+                    </div>
+
+                    <img src="{% static 'images/momo.jpg' %}" alt="Special Momo">
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+      (click opens detail popup)
+         ============================================================ -->
+<section id="gallery">
+    <div class="container">
+
+        <div class="text-center mb-5">
+            <span class="slbl">Our Signature Momos</span>
+            <h2 class="stitle">Explore Our <span>Gallery</span></h2>
+            <div class="sline"></div>
+        </div>
+
+        <div class="ggrid">
+
+            {% for item in gallery %}
+            <div class="gitem" data-gi="{{ forloop.counter0 }}" data-gimg="{{ item.image.url }}"
+                data-gtitle="{{ item.title }}" data-gdesc="{{ item.description }}">
+
+                <img src="{{ item.image.url }}" alt="{{ item.title }}">
+
+                <div class="gover">
+                    <span>
+                        <i class="fas fa-expand-alt"></i>
+                        {{ item.title }}
+                    </span>
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+
+    </div>
+</section>
+<!--  GALLERY POPUP -->
+<div id="galPop">
+    <div class="gpbox">
+        <button class="gpclose" id="gpClose"><i class="fas fa-times"></i></button>
+        <img id="gpImg" src="" alt="" />
+        <div class="gpcap">
+            <h5 id="gpTitle"></h5>
+            <p id="gpDesc"></p>
+        </div>
+        <div class="gpnav">
+            <button id="gpPrev"><i class="fas fa-chevron-left me-1"></i>Prev</button>
+            <button id="gpNext">Next <i class="fas fa-chevron-right ms-1"></i></button>
+        </div>
+    </div>
+</div>
+
+
+<!-- ============================================================
+          (alternating left/right text)
+         ============================================================ -->
+<section id="history">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <span class="slbl">Our Journey</span>
+            <h2 class="stitle">A History of <span>Restaurant</span></h2>
+            <div class="sline"></div>
+            <p class="sdesc mx-auto" style="max-width:480px;">From humble beginnings to the city's most beloved
+                restaurant - every chapter written with passion.</p>
+        </div>
+        <div class="timeline" data-aos="fade-up">
+            <!-- ODD ? text on LEFT -->
+            <div class="tli">
+                <div class="tl-left">
+                    <div class="tlyear">2012</div>
+                    <h5>Evolution of Restaurants</h5>
+                    <p>Sarab opens its first 20-seat diner on Flavor Street. Within 3 months, lines stretch around the
+                        block every evening as word of our food spreads.</p>
+                </div>
+                <div class="tl-center">
+                    <div class="tldot"></div>
+                </div>
+                <div class="tl-right">
+                    <div class="tlyear">2012</div>
+                    <h5>Evolution of Restaurants</h5>
+                    <p>Sarab opens its first 20-seat diner on Flavor Street. Within 3 months, lines stretch around the
+                        block every evening as word of our food spreads.</p>
+                </div>
+            </div>
+            <!-- EVEN ? text on RIGHT -->
+            <div class="tli">
+                <div class="tl-left">
+                    <div class="tlyear">2015</div>
+                    <h5>Fine Dining &amp; The Concept</h5>
+                    <p>Expanding the vision - we introduced our signature tasting menu and hired our first
+                        Michelin-trained chef, elevating our craft to remarkable new heights.</p>
+                </div>
+                <div class="tl-center">
+                    <div class="tldot"></div>
+                </div>
+                <div class="tl-right">
+                    <div class="tlyear">2015</div>
+                    <h5>Fine Dining &amp; The Concept</h5>
+                    <p>Expanding the vision - we introduced our signature tasting menu and hired our first
+                        Michelin-trained chef, elevating our craft to remarkable new heights.</p>
+                </div>
+            </div>
+            <!-- ODD ? text on LEFT -->
+            <div class="tli">
+                <div class="tl-left">
+                    <div class="tlyear">2019</div>
+                    <h5>Modern Fast Food Origins</h5>
+                    <p>Launched our signature fast-food line, merging gourmet quality with speed and convenience. Within
+                        6 months we won 3 prestigious culinary awards nationally.</p>
+                </div>
+                <div class="tl-center">
+                    <div class="tldot"></div>
+                </div>
+                <div class="tl-right">
+                    <div class="tlyear">2019</div>
+                    <h5>Modern Fast Food Origins</h5>
+                    <p>Launched our signature fast-food line, merging gourmet quality with speed and convenience. Within
+                        6 months we won 3 prestigious culinary awards nationally.</p>
+                </div>
+            </div>
+            <!-- EVEN ? text on RIGHT -->
+            <div class="tli">
+                <div class="tl-left">
+                    <div class="tlyear">2026</div>
+                    <h5>National Expansion</h5>
+                    <p>Now operating in 8 cities across the US with an online delivery platform handling 10,000+ orders
+                        weekly - and growing every single day.</p>
+                </div>
+                <div class="tl-center">
+                    <div class="tldot"></div>
+                </div>
+                <div class="tl-right">
+                    <div class="tlyear">2026</div>
+                    <h5>National Expansion</h5>
+                    <p>Now operating in 8 cities across the US with an online delivery platform handling 10,000+ orders
+                        weekly - and growing every single day.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}

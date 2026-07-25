@@ -1,0 +1,66 @@
+# Python
+*.py[cod]
+__pycache__/
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+.python-version
+
+# Django
+*.log
+*.pot
+*.pyc
+local_settings.py
+db.sqlite3
+media/
+staticfiles/
+
+# Environment
+env/
+venv/
+ENV/
+.env
+.env.*
+
+# macOS
+.DS_Store
+
+# VS Code
+.vscode/
+
+# PyCharm
+.idea/
+
+# Byte-compiled / optimized / DLL files
+*.pyc
+*.pyo
+*.pyd
+
+# Coverage
+.coverage
+htmlcov/
+.coverage.*
+
+# mypy
+.mypy_cache/
+
+# debug
+*.log
+
+# JetBrains
+.idea/
+
+# System files
+*.swp
+*~
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Database backups
+db_backup.json
+db_backup_utf8.json

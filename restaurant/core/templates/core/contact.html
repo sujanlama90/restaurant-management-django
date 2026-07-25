@@ -1,0 +1,89 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+<!-- ============================================================
+         CONTACT FORM
+         ============================================================ -->
+<section id="contact-section">
+  <div class="container">
+    <div class="text-center mb-5" data-aos="fade-up">
+      <span class="slbl">Get In Touch</span>
+      <h2 class="stitle">Contact <span>Us</span></h2>
+      <div class="sline"></div>
+      <p class="sdesc mx-auto" style="max-width: 480px">Have a question, feedback, or want to plan a special event? We'd love to hear from you.</p>
+    </div>
+    <div class="row g-4">
+      <div class="col-lg-4" data-aos="fade-right">
+        <div class="ctdark">
+          <h4>Let's Talk</h4>
+          <p class="ctsub">We typically respond within 2 hours during business hours.</p>
+          <div class="ctitem">
+            <div class="cticon"><i class="fas fa-map-marker-alt"></i></div>
+            <div class="ctinfo">
+              <strong>Address</strong><span>Bajrabarahi ,Lalitpur<br />Nepal </span>
+            </div>
+          </div>
+          <div class="ctitem">
+            <div class="cticon"><i class="fas fa-phone-alt"></i></div>
+            <div class="ctinfo"><strong>Phone</strong><span>+977 9709593901</span></div>
+          </div>
+          <div class="ctitem">
+            <div class="cticon"><i class="fas fa-envelope"></i></div>
+            <div class="ctinfo"><strong>Email</strong><span>suzanmomorestaurant@gmail.com</span></div>
+          </div>
+          <div class="ctitem">
+            <div class="cticon"><i class="fas fa-clock"></i></div>
+            <div class="ctinfo"><strong>Working Hours</strong><span>Wed - Sun: 9 AM - 11 PM</span></div>
+          </div>
+          <div class="ctsocrow">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-8">
+        <form action="{% url 'contact' %}" method="post">
+          {% csrf_token %} {% if messages %} {% for message in messages %}
+          <div class="alert alert-success mb-3">{{ message }}</div>
+          {% endfor %} {% endif %}
+          <div class="fcard" data-aos="fade-up" data-aos-duration="3000">
+            <div class="row g-3">
+              <div class="col-sm-6">
+                <label class="flbl">Your Name *</label>
+                <input type="text" name="name" class="fctrl" placeholder="Sujan Lama" required />
+              </div>
+              <div class="col-sm-6">
+                <label class="flbl">Email Address *</label>
+                <input type="email" name="email" class="fctrl" placeholder="example@email.com" required />
+              </div>
+              <div class="col-sm-6">
+                <label class="flbl">Phone Number</label>
+                <input type="number" name="phone" class="fctrl" placeholder="+977 ****" required />
+              </div>
+              <div class="col-sm-6">
+                <label class="flbl">Subject *</label>
+                <select class="fctrl" name="subject" required>
+                  <option value="General Inquiry">General Inquiry</option>
+                  <option value="Catering & Events">Catering & Events</option>
+                  <option value="Feedback">Feedback</option>
+                  <option value="Partnership">Partnership</option>
+                  <option value="Media & Press">Media & Press</option>
+                </select>
+              </div>
+              <div class="col-12">
+                <label class="flbl">Message *</label>
+                <textarea class="fctrl" name="message" rows="5" placeholder="Write your message here..."> </textarea>
+              </div>
+              <div class="col-12">
+                <button type="submit" class="btn-red"><i class="fas fa-paper-plane"></i>Send Message</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock content %}
