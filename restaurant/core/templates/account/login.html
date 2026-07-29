@@ -95,7 +95,7 @@
 
                     <div class="row g-2">
                         <div class="col-6">
-                            <form method="post" action="{% url 'log_in' %}">
+                            <form method="post" action="{% url 'social:begin' 'google-oauth2' %}">
                                 {% csrf_token %}
                                 <button class="btn btn-ghost w-100" type="submit">
                                     <svg width="16" height="16" viewBox="0 0 24 24">
