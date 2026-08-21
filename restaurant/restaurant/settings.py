@@ -35,6 +35,8 @@ EXTERNAL_APPS = [
     'allauth', 
     'allauth.account',
     'allauth.socialaccount',
+    "allauth.socialaccount.providers.facebook",
+
 
 ]
 
@@ -48,10 +50,24 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    #Google OAuth
     'social_django.middleware.SocialAuthExceptionMiddleware',
     'allauth.account.middleware.AccountMiddleware', 
 ]
+
+SOCIAL_AUTH_PIPELINE = ( 
+    'social_core.pipeline.social_auth.social_details', 
+    'social_core.pipeline.social_auth.social_uid', 
+    # 🔥 Custom step 
+    'core.pipeline.associate_by_email', 
+    'social_core.pipeline.social_auth.auth_allowed', 
+    'social_core.pipeline.social_auth.social_user', 
+    'social_core.pipeline.user.get_username', 
+    'social_core.pipeline.user.create_user', 
+    'social_core.pipeline.social_auth.associate_user', 
+    'social_core.pipeline.social_auth.load_extra_data', 
+    'social_core.pipeline.user.user_details', 
+)
+
 LOGIN_URL="log_in"
 LOGIN_REDIRECT_URL ="log_in"
 LOGOUT_URL="log_out"
@@ -60,6 +76,8 @@ LOGOUT_REDIRECT_URL ="log_in"
 #Google OAuth
 AUTHENTICATION_BACKENDS = [
     'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.github.GithubOAuth2',
+    'social_core.backends.facebook.FacebookOAuth2',
     'allauth.account.auth_backends.AuthenticationBackend',
     'django.contrib.auth.backends.ModelBackend',
 ]
@@ -67,6 +85,18 @@ AUTHENTICATION_BACKENDS = [
 SOCIAL_AUTH_URL_NAMESPACE = config('SOCIAL_AUTH_URL_NAMESPACE')
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = config('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY')
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = config('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET')
+
+SOCIAL_AUTH_GITHUB_KEY = config('SOCIAL_AUTH_GITHUB_KEY')
+SOCIAL_AUTH_GITHUB_SECRET = config('SOCIAL_AUTH_GITHUB_SECRET')
+
+SOCIAL_AUTH_FACEBOOK_KEY=config('SOCIAL_AUTH_FACEBOOK_KEY')
+SOCIAL_AUTH_FACEBOOK_SECRET=config('SOCIAL_AUTH_FACEBOOK_SECRET')
+
+# Force HTTP for local testing redirect URIs
+SOCIAL_AUTH_REDIRECT_IS_HTTPS = False
+
+# Required if running behind a local reverse proxy or tunnel
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 ROOT_URLCONF = 'restaurant.urls'
 
